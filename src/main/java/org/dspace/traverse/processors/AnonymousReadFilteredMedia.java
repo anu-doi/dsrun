@@ -14,32 +14,18 @@ import org.dspace.content.Bundle;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.Constants;
-import org.dspace.core.Context;
 import org.dspace.eperson.Group;
+import org.dspace.traverse.AbstractItemProcessor;
 import org.dspace.traverse.ItemProcessingException;
-import org.dspace.traverse.ItemProcessor;
 
 /**
  * @author Rahul Khanna
  *
  */
-public class AnonymousReadFilteredMedia implements ItemProcessor {
+public class AnonymousReadFilteredMedia extends AbstractItemProcessor {
 
 	private static final String ANONYMOUS_GROUPNAME = "Anonymous";
 	
-	private Context c;
-	private boolean isDryRun;
-	
-	@Override
-	public void setContext(Context c) {
-		this.c = c;
-	}
-
-	@Override
-	public void setDryRun(boolean isDryRun) {
-		this.isDryRun = isDryRun;
-	}
-
 	@Override
 	public void processItem(Item item) throws ItemProcessingException {
 		try {
@@ -135,10 +121,5 @@ public class AnonymousReadFilteredMedia implements ItemProcessor {
 			}
 		}
 		return path;
-	}
-
-	private static void print(String str, Object... varargs) {
-		System.out.format(str, varargs);
-		System.out.println();
 	}
 }

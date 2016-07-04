@@ -1,0 +1,5 @@
+
+To change permissions of a thumbnails in an item or items within a community or collection:
+
+	bash ./dsrun.sh org.dspace.traverse.ResourceTraverser -p org.dspace.traverse.processors.AnonymousReadFilteredMedia HANDLE [HANDLE]...
+	
