@@ -11,6 +11,6 @@ dsrun_dir=`dirname $0`
 CLASSPATH=`echo ${dsrun_dir}/*.jar | sed 's/ /\:/g'`
 export CLASSPATH
 
-bash $DSPACE_HOME/bin/dspace dsrun $@
+bash $DSPACE_HOME/bin/dspace dsrun "$@"
 
 export CLASSPATH=
