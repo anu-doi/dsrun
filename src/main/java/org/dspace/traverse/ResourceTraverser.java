@@ -11,7 +11,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -40,12 +39,12 @@ public class ResourceTraverser {
 	private static int nError = 0;
 	
 	public static int main(String[] args) {
-		
+
 		Options cliOptions = new Options();
 		cliOptions.addOption("p", "processor", true, "fully qualified classname of item processor");
 		cliOptions.addOption("n", "dry-run", false, "dry run - changes saved");
 		cliOptions.addOption("h", "help", false, "display this help");
-		
+
 		CommandLineParser cliParser = new PosixParser();
 		CommandLine cmdLine = null;
 		try {
@@ -54,56 +53,45 @@ public class ResourceTraverser {
 			e.printStackTrace();
 			return 1;
 		}
-		
+
 		if (cmdLine.hasOption("help")) {
 			printHelp(cliOptions);
 			return 0;
 		}
-		
+
 		if (cmdLine.hasOption("dry-run")) {
 			System.out.println("Resource traversal will be performed in Dry Run mode.");
 			isDryRun = true;
 		} else {
 			isDryRun = false;
 		}
-		
+
 		int retVal = 0;
 		try {
 			initContext();
-			
+
 			if (cmdLine.hasOption("processor")) {
 				instantiateItemProcessor(cmdLine.getOptionValue("processor"));
 			} else {
 				throw new ItemProcessingException("No item processor specified.");
 			}
-			
+
 			String[] handles = cmdLine.getArgs();
 			if (handles != null && handles.length > 0) {
 				traverseHandles(handles);
 			} else {
 				throw new ItemProcessingException("No handles to process");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			retVal = 1;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			retVal = 1;
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			retVal = 1;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			retVal = 1;
-		} catch (ItemProcessingException e) {
+		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException
+				| ItemProcessingException e) {
 			e.printStackTrace();
 			retVal = 1;
 		} finally {
 			closeContext();
-			System.out.format("Finished. %d success, %d errors, %d total.",	nSuccess, nError, nSuccess + nError);
+			System.out.format("Finished. %d success, %d errors, %d total.", nSuccess, nError, nSuccess + nError);
 			System.out.println();
 		}
-		
+
 		return retVal;
 	}
 
