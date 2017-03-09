@@ -3,6 +3,8 @@
  */
 package org.dspace.traverse;
 
+import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 
@@ -21,4 +23,8 @@ public interface ItemProcessor {
 	public void setDryRun(boolean isDryRun);
 	
 	public void processItem(Item item) throws ItemProcessingException;
+	
+	public void processCollection(Collection collection) throws ItemProcessingException;
+	
+	public void processCommunity(Community community) throws ItemProcessingException;
 }

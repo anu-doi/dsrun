@@ -144,12 +144,17 @@ public class ResourceTraverser {
 	}
 
 	private static void processCommunity(Community community) throws SQLException, ItemProcessingException {
-		for (Collection coll : community.getAllCollections()) {
+		itemProcessor.processCommunity(community);
+		for (Community comm : community.getSubcommunities()) {
+			processCommunity(comm);
+		}
+		for (Collection coll : community.getCollections()) {
 			processCollection(coll);
 		}
 	}
 	
 	private static void processCollection(Collection coll) throws SQLException, ItemProcessingException {
+		itemProcessor.processCollection(coll);
 		ItemIterator iterator = coll.getItems();
 		while (iterator.hasNext()) {
 			processItem(iterator.next());

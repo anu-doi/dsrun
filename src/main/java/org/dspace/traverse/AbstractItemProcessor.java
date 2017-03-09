@@ -3,6 +3,9 @@
  */
 package org.dspace.traverse;
 
+import org.dspace.content.Collection;
+import org.dspace.content.Community;
+import org.dspace.content.Item;
 import org.dspace.core.Context;
 
 /**
@@ -29,4 +32,18 @@ public abstract class AbstractItemProcessor implements ItemProcessor {
 		System.out.println();
 	}
 
+	@Override
+	public void processItem(Item item) throws ItemProcessingException {
+		// Do nothing
+	}
+
+	@Override
+	public void processCollection(Collection collection) throws ItemProcessingException {
+		// Do nothing
+	}
+	
+	@Override
+	public void processCommunity(Community community) throws ItemProcessingException {
+		// Do nothing
+	}
 }
